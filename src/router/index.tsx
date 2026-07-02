@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createHashRouter, Navigate } from 'react-router-dom'
 import { TeacherLayout, StudentLayout } from '@/layouts'
 
 /* —— 教师端页面 —— */
@@ -32,7 +32,7 @@ import { Landing } from '@/pages/Landing'
  * 这些独立"问卷 / 测评"入口在新数据模型下不再存在，问卷与测评作为
  * Activity 嵌入在课程节点中。访问到这些路径会重定向到新入口。
  */
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   { path: '/', element: <Landing /> },
 
   /* —— 教师端 —— */

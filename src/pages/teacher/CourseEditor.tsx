@@ -340,12 +340,21 @@ export function TeacherCourseEditor() {
     markDirty()
   }
 
-  function handleSave() {
+  function persistDrafts() {
     // 先保存所有 activity 草稿
     Object.values(activityDrafts).forEach((act) => saveActivity(act))
     saveCourse(course)
     setActivityDrafts({})
     setDirty(false)
+  }
+
+  function handleSave() {
+    persistDrafts()
+  }
+
+  function previewStudentLesson() {
+    // 预览前先落库，避免学生端读取不到当前课节 / 节点草稿。
+    persistDrafts()
   }
 
   /** 打开题目配置中心：先落库（避免跳转后绑定/草稿丢失），再跳转 */
@@ -360,10 +369,7 @@ export function TeacherCourseEditor() {
       if (!confirm) return
 
       // 用户确认保存
-      Object.values(activityDrafts).forEach((act) => saveActivity(act))
-      saveCourse(course)
-      setActivityDrafts({})
-      setDirty(false)
+      persistDrafts()
     }
     navigate(`/teacher/activity/${activityId}/config`)
   }
@@ -590,6 +596,7 @@ export function TeacherCourseEditor() {
               <Link
                 to={`/student/course/${course.id}/lesson/${currentLessonId}`}
                 target="_blank"
+                onClick={previewStudentLesson}
                 className="lf-btn-ghost !h-8 text-xs"
               >
                 👁 预览学生端
