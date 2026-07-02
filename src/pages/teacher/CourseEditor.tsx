@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Button, Card, Input, Tag, Textarea, Icon } from '@/components/ui'
 import type { IconName } from '@/components/ui'
 import { CourseCover } from '@/components/CourseCover'
@@ -353,8 +353,14 @@ export function TeacherCourseEditor() {
   }
 
   function previewStudentLesson() {
+    if (!currentLessonId) return
     // 预览前先落库，避免学生端读取不到当前课节 / 节点草稿。
     persistDrafts()
+
+    // 当前应用使用 HashRouter。直接打开 /student/... 会绕过 hash 路由，
+    // 在新标签页被静态服务器当成真实路径请求，从而出现 404。
+    const previewUrl = `${window.location.origin}${window.location.pathname}#/student/course/${course.id}/lesson/${currentLessonId}`
+    window.open(previewUrl, '_blank', 'noopener,noreferrer')
   }
 
   /** 打开题目配置中心：先落库（避免跳转后绑定/草稿丢失），再跳转 */
@@ -593,14 +599,13 @@ export function TeacherCourseEditor() {
           </div>
           <div className="flex items-center gap-2">
             {currentLessonId ? (
-              <Link
-                to={`/student/course/${course.id}/lesson/${currentLessonId}`}
-                target="_blank"
+              <button
+                type="button"
                 onClick={previewStudentLesson}
                 className="lf-btn-ghost !h-8 text-xs"
               >
                 👁 预览学生端
-              </Link>
+              </button>
             ) : (
               <button
                 disabled
