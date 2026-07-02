@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============ 全局基础 ============ */
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-50 text-ink-900 antialiased;
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Microsoft YaHei', Arial, sans-serif;
+}
+
+/* 低保真：去除强烈视觉，统一灰色边框 */
+* {
+  border-color: theme('colors.ink.200');
+}
+
+/* ============ wireframe 风格组件类 ============ */
+@layer components {
+  /* 卡片 */
+  .lf-card {
+    @apply bg-white border border-ink-100 rounded-xl shadow-sm p-5;
+  }
+
+  /* 卡片标题区 */
+  .lf-card-title {
+    @apply text-sm font-semibold text-ink-900 mb-4 flex items-center justify-between;
+  }
+
+  /* 主按钮（蓝） */
+  .lf-btn-primary {
+    @apply inline-flex items-center justify-center px-4 h-9 text-sm font-medium
+           bg-brand text-white rounded-lg
+           hover:bg-brand-hover transition-colors
+           disabled:bg-ink-300 disabled:cursor-not-allowed;
+  }
+
+  /* 次按钮（白底灰边） */
+  .lf-btn-secondary {
+    @apply inline-flex items-center justify-center px-4 h-9 text-sm font-medium
+           bg-white text-ink-700 border border-ink-200 rounded-lg
+           hover:bg-ink-50 hover:border-ink-300 transition-colors;
+  }
+
+  /* 幽灵按钮（文字） */
+  .lf-btn-ghost {
+    @apply inline-flex items-center justify-center px-2 h-8 text-sm
+           text-ink-500 hover:text-ink-900 hover:bg-ink-100 rounded-lg
+           transition-colors;
+  }
+
+  /* 输入框 */
+  .lf-input {
+    @apply block w-full h-9 px-3 text-sm
+           bg-white border border-ink-200 rounded-lg
+           text-ink-900 placeholder:text-ink-500
+           focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15;
+  }
+
+  /* textarea */
+  .lf-textarea {
+    @apply block w-full px-3 py-2 text-sm
+           bg-white border border-ink-200 rounded-lg
+           text-ink-900 placeholder:text-ink-500
+           focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15;
+  }
+
+  /* 标签 / Tag */
+  .lf-tag {
+    @apply inline-flex items-center px-2 h-6 text-xs rounded-md
+           bg-ink-100 text-ink-700;
+  }
+  .lf-tag-brand {
+    @apply inline-flex items-center px-2 h-6 text-xs rounded-md
+           bg-brand-soft text-brand-text;
+  }
+
+  /* 表格 */
+  .lf-table {
+    @apply w-full text-sm text-left;
+  }
+  .lf-table thead th {
+    @apply px-3 py-2 font-medium text-ink-500 bg-ink-50 border-b border-ink-200;
+  }
+  .lf-table tbody td {
+    @apply px-3 py-2 border-b border-ink-100 text-ink-900;
+  }
+  .lf-table tbody tr:hover {
+    @apply bg-ink-50;
+  }
+
+  /* ============ 学生端友好组件类（kid-*） ============ */
+  /* 说明：学生端配色统一用 Tailwind 内置色（indigo=主色 joy / amber=暖色点缀），
+     不依赖自定义 theme token，避免改 config 后必须重启 dev server 的坑。 */
+
+  /* 大圆角卡片：柔和阴影、更松的留白 */
+  .kid-card {
+    @apply bg-white border border-ink-100 rounded-2xl shadow-sm;
+  }
+
+  /* 可点击的卡片：hover 抬起 */
+  .kid-card-link {
+    @apply bg-white border border-ink-100 rounded-2xl shadow-sm transition
+           hover:shadow-lg hover:border-indigo-200 hover:-translate-y-0.5;
+  }
+
+  /* 大主按钮：学生端主操作 */
+  .kid-btn {
+    @apply inline-flex items-center justify-center gap-1.5 px-5 h-11 text-base font-medium
+           bg-indigo-500 text-white rounded-full shadow-sm transition
+           hover:bg-indigo-600 active:scale-95
+           disabled:bg-ink-300 disabled:cursor-not-allowed;
+  }
+
+  /* 次按钮 */
+  .kid-btn-soft {
+    @apply inline-flex items-center justify-center gap-1.5 px-4 h-10 text-sm font-medium
+           bg-indigo-50 text-indigo-700 rounded-full transition
+           hover:bg-indigo-100 active:scale-95;
+  }
+
+  /* 彩色图标圆：导航/分类图标承载 */
+  .kid-chip {
+    @apply inline-flex items-center justify-center rounded-2xl shrink-0;
+  }
+}
